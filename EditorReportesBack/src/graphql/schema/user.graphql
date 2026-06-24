@@ -1,0 +1,65 @@
+type User {
+    id: ID
+    email: String!
+    name: String!
+    createdAt: String
+    updatedAt: String
+}
+
+input RegisterInput {
+    email: String!
+    password: String!
+    name: String!
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input UpdateUserInput {
+    name: String
+    email: String
+}
+
+input RefreshTokenInput {
+    refreshToken: String!
+}
+
+extend type User {
+    active: Boolean!
+    # is_verified: Boolean!
+    isAdmin: Boolean
+    # daysUntilDeletion: Int
+}
+
+extend type Query {
+    me: User
+    users: [User!]!
+    user(id: ID!): User
+}
+
+
+extend type Mutation {
+    register(input: RegisterInput!): User
+    login(input: LoginInput!): AuthPayload!
+    refreshToken(input: RefreshTokenInput!): AuthPayload!
+    updateUser(input: UpdateUserInput!): User!
+    deleteUser: Boolean!
+    changePassword(oldPassword: String!, newPassword: String!): Boolean!
+
+    # Alterna entre activado y desactivado
+    toggleUserStatus(id: ID!, active: Boolean!): User!
+    # Alterna el rol de administrador
+    toggleUserAdmin(id: ID!, isAdmin: Boolean!): User!
+    # Reestablece contraseña
+    resetUserPassword(id: ID!): Boolean!
+
+    # Inicia el proceso de recuperación enviando un correo con un link/token
+    requestPasswordRecovery(email: String!): Boolean!
+    resetPasswordWithToken(token: String!, newPassword: String!): Boolean!
+
+    # verifyEmail(token: String!): Boolean!
+
+    # resendVerificationEmail(email: String!): Boolean!
+}

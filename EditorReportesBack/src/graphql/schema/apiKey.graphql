@@ -1,0 +1,34 @@
+enum ApiKeyType {
+    development
+    production
+}
+
+type ApiKey {
+    id: String!
+    userId: String
+    type: ApiKeyType
+    apiKey: String!
+    createdAt: String!
+    updatedAt: String!
+    is_active: Boolean!
+}
+
+input ApiKeyInput {
+    userId: String!
+    type: ApiKeyType!
+}
+
+input ApiKeyRenewInput {
+    apiKey: String!
+}
+
+extend type Query {
+    getActiveApiKeysByUserId(userId: String!): [ApiKey]
+    getApiKeyActiveByType(type: ApiKeyType!): ApiKey
+}
+
+extend type Mutation {
+    createApiKey(input: ApiKeyInput!): ApiKey
+    deleteLogicalApiKey(apiKey: String!): ApiKey
+    renewApiKey(input: ApiKeyRenewInput!): ApiKey
+}

@@ -1,0 +1,65 @@
+
+services:
+  mongodb:
+    image: mongo:8.0.15
+    container_name: pdf-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: pdf_templates
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    command: mongod --bind_ip_all
+    networks:
+      - pdf-network
+
+  postgres:
+    image: postgres:16
+    container_name: pdf-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: pdf_auth
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql:ro
+    networks:
+      - pdf-network
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: pdf-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - pdf-network
+
+  pdf-service:
+    build:
+      context: ../pdf-service
+      dockerfile: Dockerfile
+    container_name: pdf-service
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - pdf-network
+
+volumes:
+  mongodb_data:
+  postgres_data:
+  redis_data:
+
+networks:
+  pdf-network:
+    driver: bridge

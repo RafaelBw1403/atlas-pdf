@@ -1,0 +1,60 @@
+{
+  "company": {
+    "name": "QTree Labs",
+    "tagline": "Documents & Reporting Platform",
+    "taxId": "QTL-920315-ABC"
+  },
+  "client": {
+    "name": "Gobierno del Estado",
+    "email": "contacto@gob.mx"
+  },
+  "order": {
+    "number": "INV-2025-1034",
+    "date": "2025-10-02"
+  },
+  "items": [
+    {
+      "name": "PDF Generator Core",
+      "qty": 12,
+      "price": 1499.5,
+      "lineTotal": 17994,
+      "tags": ["service", "backend"],
+      "note": "Includes template engine & queue"
+    },
+    {
+      "name": "Front-end Studio",
+      "qty": 4,
+      "price": 2999,
+      "lineTotal": 11996,
+      "tags": ["ui", "react"]
+    },
+    {
+      "name": "On-prem Deployment",
+      "qty": 1,
+      "price": 8999,
+      "lineTotal": 8999,
+      "tags": ["devops"]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Notes",
+      "points": [
+        "Delivery within 10 business days.",
+        "Includes 30-day support window."
+      ]
+    },
+    {
+      "title": "Terms",
+      "points": [
+        "50% upfront, 50% upon acceptance.",
+        "Prices exclude VAT."
+      ]
+    }
+  ],
+  "subtotal": { "currency": "MXN", "amount": 38989 },
+  "tax": { "rate": 16, "amount": 6238.24 },
+  "total": 45227.24,
+  "paid": false,
+  "generatedAt": "2025-10-02T18:45:00"
+}

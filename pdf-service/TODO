@@ -1,0 +1,15 @@
+
+
+
+1. debe recibir el tiempo de espera como parametro, el cual se debe enviar y calcular desde el front, si no se envia el maximo sera de 1 minuto
+2. validacion y seguridad 
+    DOMPurify + jsdom
+    2.1. y manejar los errores para regresarlos al back y que el back los regrese al front con un mensaje claro
+
+3. hacer la validacion con zod de lo que recibe el servicio
+
+
+***asegúrate de que el motor de renderizado (Puppeteer/Playwright) tenga las opciones de red desactivadas o restringidas a localhost.
+
+***Debes asegurar que el servicio del puerto 3001 también tenga su propio límite de recursos interno (p. ej., el timeout de Puppeteer).
+

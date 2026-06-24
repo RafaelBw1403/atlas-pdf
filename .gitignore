@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.env
+.DS_Store
+*.log
+docker-data/
+rate_limit.db
+uploads/
+certificates/
+*.key
+*.pem
+.docs/*
+EditorReportesBack/debug-output.html
+EditorReportesBack/debug-output.html
+EditorReportesBack/.env.old
+
+.agent.env_odl
+<<<<<<< HEAD
+<<<<<<< HEAD
+.env_odl
+=======
+>>>>>>> 18a4174f28de7cec6ae49661b5a3232580a0d43d
+=======
+>>>>>>> 18a4174f28de7cec6ae49661b5a3232580a0d43d

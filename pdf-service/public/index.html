@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PDF Creator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root { --bg:#0b1220; --card:#0f172a; --muted:#94a3b8; --text:#e5e7eb; --accent:#22c55e; --line:#1e293b; }
+    html,body { height:100%; margin:0; background:#0b1220; color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; }
+    .wrap { display:grid; grid-template-columns: 480px 1fr; gap:16px; height:100%; padding:16px; box-sizing:border-box; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; display:flex; flex-direction:column; }
+    .row { display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+    label { font-size:12px; color:var(--muted); margin-bottom:4px; display:block; }
+    textarea, input[type="text"] { width:100%; box-sizing:border-box; background:#0b1220; color:var(--text); border:1px solid var(--line); border-radius:10px; padding:10px; font:inherit; }
+    textarea { min-height:220px; resize:vertical; }
+    .btn { appearance:none; background:var(--accent); color:#04120a; border:none; border-radius:10px; padding:10px 12px; font-weight:700; cursor:pointer; }
+    .btn.secondary { background:#334155; color:#e2e8f0; }
+    .toolbar { display:flex; gap:8px; align-items:center; }
+    .muted { color:var(--muted); font-size:12px; }
+    .pdfwrap { flex:1; background:#0b1220; border:1px dashed var(--line); border-radius:12px; overflow:hidden; display:flex; }
+    .pdf { width:100%; height:100%; border:0; background:#1f2937; }
+    .spacer { height:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- LEFT: controls -->
+    <div class="card">
+      <div class="toolbar" style="justify-content:space-between">
+        <div style="font-weight:800">PDF Creator</div>
+        <button class="btn secondary" id="loadExample">Load example</button>
+      </div>
+      <div class="spacer"></div>
+
+      <label for="html">HTML</label>
+      <textarea id="html" spellcheck="false" placeholder="Paste your HTML here"></textarea>
+
+      <div class="spacer"></div>
+      <div class="row">
+        <div>
+          <label for="format">Page format</label>
+          <input id="format" type="text" placeholder="A4 (default)" />
+        </div>
+        <div>
+          <label for="margins">Margins (CSS)</label>
+          <input id="margins" type="text" placeholder="top right bottom left e.g. 20mm 16mm 20mm 16mm" />
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="toolbar">
+        <button class="btn" id="gen">Generate & Preview</button>
+        <button class="btn secondary" id="download">Download</button>
+        <span class="muted" id="status"></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: preview -->
+    <div class="card">
+      <div class="toolbar" style="justify-content:space-between">
+        <div style="font-weight:800">Preview</div>
+        <span class="muted">Shows the last generated PDF</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="pdfwrap">
+        <iframe id="viewer" class="pdf" title="PDF preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const endpoint = "/pdf"; // same origin
+
+    const el = (id) => document.getElementById(id);
+    const htmlEl = el("html");
+    const formatEl = el("format");
+    const marginsEl = el("margins");
+    const statusEl = el("status");
+    const viewer = el("viewer");
+
+    let lastBlobUrl = null;
+
+    async function generate(download = false) {
+      const html = htmlEl.value;
+      if (!html.trim()) {
+        status("Please paste some HTML");
+        return;
+      }
+
+      const pdfOptions = {};
+      const format = formatEl.value.trim();
+      if (format) pdfOptions.format = format;
+      const margins = marginsEl.value.trim();
+      if (margins) {
+        const [top,right,bottom,left] = margins.split(/\s+/);
+        pdfOptions.margin = { top, right, bottom, left };
+      }
+      status("Generating…");
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ html, pdfOptions })
+        });
+
+        if (!res.ok) {
+          const err = await safeJson(res);
+          throw new Error(err?.error || ("HTTP " + res.status));
+        }
+
+        const blob = await res.blob();
+        if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+        lastBlobUrl = URL.createObjectURL(blob);
+
+        if (download) {
+          const a = Object.assign(document.createElement("a"), { href: lastBlobUrl, download: "document.pdf" });
+          document.body.appendChild(a); a.click(); a.remove();
+        } else {
+          viewer.src = lastBlobUrl;
+        }
+        status("Ready");
+      } catch (e) {
+        console.error(e);
+        status("Error: " + e.message);
+        alert("Failed: " + e.message);
+      }
+    }
+
+    function status(msg) { statusEl.textContent = msg; }
+    async function safeJson(res){ try { return await res.json(); } catch { return null; } }
+
+    el("gen").addEventListener("click", () => generate(false));
+    el("download").addEventListener("click", () => generate(true));
+
+    // Example HTML (no external JS) — you can replace with your own
+    const example = `<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+  @page{ size:A4; margin:20mm } body{ font-family: system-ui; color:#111 }
+  h1{ margin:0 0 8px } .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px }
+  .card{ border:1px solid #ddd; border-radius:10px; padding:10px }
+  table{ width:100%; border-collapse:collapse; margin-top:10px }
+  th,td{ border-bottom:1px solid #eee; padding:8px; text-align:left; font-size:12px }
+  thead th{ background:#f8f9fb; text-transform:uppercase; font-size:11px; letter-spacing:.04em }
+</style></head>
+<body>
+  <h1>Sample Report</h1>
+  <div class="cards">
+    <div class="card"><b>Total</b><div>$ 8,940.00</div></div>
+    <div class="card"><b>Issued</b><div>Sep 18, 2025</div></div>
+    <div class="card"><b>Status</b><div>Paid</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Description</th><th>Qty</th><th>Total</th></tr></thead>
+    <tbody>
+      <tr><td>Design & layout</td><td>1</td><td>$6,960.00</td></tr>
+      <tr><td>Extra service</td><td>2</td><td>$1,980.00</td></tr>
+    </tbody>
+  </table>
+</body></html>`;
+
+    el("loadExample").addEventListener("click", () => {
+      htmlEl.value = example;
+      formatEl.value = "A4";
+      marginsEl.value = "20mm 16mm 20mm 16mm";
+      status("Example loaded");
+    });
+  </script>
+</body>
+</html>

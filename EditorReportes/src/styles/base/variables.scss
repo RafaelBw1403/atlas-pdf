@@ -1,0 +1,48 @@
+// 🎨 Paleta de colores
+$color-primary: #4a90e2;
+$color-secondary: #7b61ff;
+$color-accent: #00c6ae;
+
+$color-bg-light: #f8f9fa;
+$color-bg-dark: #1e1e1e;
+
+$color-surface: #ffffff;
+$color-surface-dark: #2a2a2a;
+
+$color-border: #e0e0e0;
+$color-border-dark: #3a3a3a;
+
+$color-text: #2d2d2d;
+$color-text-light: #f1f1f1;
+$color-muted: #999999;
+
+// 🖋 Tipografía
+$font-family-base: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+$font-size-base: 16px;
+$font-size-sm: 14px;
+$font-size-lg: 18px;
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// 🧱 Bordes
+$border-radius-sm: 6px;
+$border-radius: 12px;
+$border-radius-lg: 20px;
+
+// 🌫️ Sombras
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+// 📏 Espaciado
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// 💡 Transiciones
+$transition-fast: 0.2s ease-in-out;
+$transition: 0.3s ease;

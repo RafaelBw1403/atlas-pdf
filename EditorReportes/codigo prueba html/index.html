@@ -1,0 +1,97 @@
+<!-- report-template.html -->
+<div class="invoice">
+  <header class="invoice__header">
+    <div>
+      <h1>{{company.name}}</h1> 
+      <p class="muted">{{company.tagline}}</p>
+      <p class="muted">RFC: {{company.taxId}}</p>
+    </div>
+    <div class="invoice__meta">
+      <h2>Invoice #{{order.number}}</h2>
+      <p>Date: {{dateFormat order.date "YYYY-MM-DD"}}</p>
+      <p>Client: {{client.name}}</p>
+      <p class="muted">{{client.email}}</p>
+    </div>
+  </header>
+
+  <section class="invoice__summary">
+    <div>
+      <span class="label">Subtotal</span>
+      <span class="value">{{currency subtotal.currency subtotal.amount}}</span>
+    </div>
+    <div>
+      <span class="label">Tax ({{tax.rate}}%)</span>
+      <span class="value">{{currency subtotal.currency tax.amount}}</span>
+    </div>
+    <div class="total">
+      <span class="label strong">Total</span>
+      <span class="value strong">{{currency subtotal.currency total}}</span>
+    </div>
+  </section>
+
+  <section class="invoice__items">
+    <div class="table">
+      <div class="table__head">
+        <div>Item</div>
+        <div class="right">Qty</div>
+        <div class="right">Price</div>
+        <div class="right">Line Total</div>
+      </div>
+
+      {{#each items}}
+        <div class="table__row">
+          <div>
+            <div class="item__name">
+              {{name}}
+              {{#if tags}}
+                <span class="tags">
+                  {{#each tags}}
+                    <span class="tag">{{this}}</span>
+                  {{/each}}
+                </span>
+              {{/if}}
+            </div>
+            {{#if note}}
+              <div class="item__note">{{note}}</div>
+            {{/if}}
+          </div>
+          <div class="right">
+            {{qty}}
+            {{#compare qty ">" 10}}
+              <span class="badge badge--bulk">bulk</span>
+            {{/compare}}
+          </div>
+          <div class="right">{{currency ../subtotal.currency price}}</div>
+          <div class="right">{{currency ../subtotal.currency lineTotal}}</div>
+        </div>
+      {{/each}}
+    </div>
+  </section>
+
+  {{#if sections}}
+    <section class="invoice__sections">
+      <h3>Additional Sections</h3>
+      {{#each sections}}
+        <div class="section">
+          <h4>{{title}}</h4>
+          <ul>
+            {{#each points}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/each}}
+    </section>
+  {{/if}}
+
+  <footer class="invoice__footer">
+    <div class="left muted">Generated on {{dateFormat generatedAt "YYYY-MM-DD HH:mm"}}</div>
+    <div class="right">
+      {{#if paid}}
+        <span class="status status--paid">PAID</span>
+      {{else}}
+        <span class="status status--due">DUE</span>
+      {{/if}}
+    </div>
+  </footer>
+</div>

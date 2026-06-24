@@ -1,0 +1,106 @@
+@use '../base/variables';
+
+
+// Scoped fix: solo para tus tabs del estudio
+.scoped-tabs {
+  .ant-tabs-content-holder {
+    overflow: auto;
+    height: 100%; // Asegura que el hijo pueda usar 100%
+  }
+
+  .ant-tabs-tabpane-active {
+    height: 100%; // Permite que el contenido (editor-premium) crezca correctamente
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
+.editor-premium {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // importante si el contenedor padre tiene altura controlada
+  max-height: 100%; // evita que lo exceda
+  overflow: auto;
+
+  .editor-header {
+    margin-bottom: variables.$spacing-sm;
+    h3 {
+      font-size: 18px;
+      font-weight: variables.$font-weight-medium;
+      color: variables.$color-text;
+      margin: 0;
+    }
+  }
+
+  .editor-wrapper {
+    flex-grow: 1; // esto permite que ocupe todo el espacio restante
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .cm-editor {
+      flex-grow: 1;
+      height: 100%;
+      overflow: auto;
+      border-radius: variables.$border-radius-sm;
+      font-size: 14px;
+    }
+  }
+
+  .editor-error {
+    margin-top: variables.$spacing-sm;
+    color: red;
+    font-size: 14px;
+  }
+}
+
+
+// .editor-premium {
+//   background: variables.variables.$color-surface;
+//   border-radius: variables.variables.$border-radius-lg;
+//   box-shadow: variables.variables.$shadow;
+//   //padding: variables.variables.$spacing;
+//   //margin-bottom: variables.variables.$spacing-lg;
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+//   max-height: 100%;
+//   overflow: hidden;
+//   background-color: yellow;
+
+//   .editor-header {
+//     margin-bottom: variables.variables.$spacing-sm;
+
+//     h3 {
+//       font-size: 18px;
+//       font-weight: variables.variables.$font-weight-medium;
+//       color: variables.variables.$color-text;
+//       margin: 0;
+//     }
+//   }
+
+//   .editor-wrapper {
+//     flex-grow: 1;
+//     display: flex;
+//     flex-direction: column;
+//     border: 1px solid variables.variables.$color-border;
+//     border-radius: variables.variables.$border-radius-sm;
+//     overflow: hidden;
+//   }
+
+//   .cm-editor {
+//     flex-grow: 1;
+//     height: 100%;
+//     min-height: 300px;
+//     // max-height: 400px; 
+//     overflow: auto;    
+//     font-size: 16px;
+//   }
+
+//   .editor-error {
+//     color: red;
+//     font-size: 14px;
+//     margin-top: variables.variables.$spacing-sm;
+//   }
+// }

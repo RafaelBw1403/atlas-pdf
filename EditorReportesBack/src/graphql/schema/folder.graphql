@@ -1,0 +1,48 @@
+type Folder {
+    id: ID
+    name: String!
+    description: String
+    owner: ID!
+    parent: Folder
+    # parentId: ID
+    # templates: [Template!]!
+    # templateCount: Int!
+    icon: String
+    color: String
+    isShared: Boolean
+    sharedWith: [ID!]
+    createdAt: String
+    updatedAt: String
+}
+
+type FolderTree {
+    id: ID!
+    name: String!
+    icon: String
+    color: String
+    # templateCount: Int!
+    # subfolders: [FolderTree!]!
+}
+
+input FolderInput {
+    name: String!
+    description: String
+    # parentId: ID
+    icon: String
+    color: String
+}
+
+extend type Query {
+    folders: [Folder!]!
+    folder(id: ID!): Folder
+    folderTree: [FolderTree!]!
+    foldersByUser: [Folder!]!
+}
+
+extend type Mutation {
+    createFolder(input: FolderInput!): Folder!
+    updateFolder(id: ID!, input: FolderInput!): Folder!
+    deleteFolder(id: ID!, moveTemplatesToRoot: Boolean): Boolean!
+    createSubfolder(parentFolderId: ID!, input: FolderInput!): Folder!
+    shareFolder(id: ID!, input: ShareInput!): Folder!
+}

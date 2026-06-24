@@ -1,0 +1,36 @@
+scalar JSON
+
+enum TemplateStatus {
+    draft
+    published
+    unpublished
+    archived
+}
+
+input ShareInput {
+    targetUserIds: [ID!]!
+    isPublic: Boolean
+}
+
+type AuthPayload {
+    token: String!
+    refreshToken: String
+    user: User
+}
+
+# type User {
+#     id: ID
+#     email: String!
+#     name: String!
+#     active: Boolean!
+#     createdAt: String
+# }
+
+# DEFINIR LOS TIPOS BASE
+type Query {
+    _empty: String
+}
+
+type Mutation {
+    _empty: String
+}

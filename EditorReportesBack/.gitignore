@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+.DS_Store
+*.log
+docker-data/
+
+# Rate limit database
+rate_limit.db
+
+uploads/
+
+pdf-service*

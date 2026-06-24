@@ -1,0 +1,146 @@
+
+
+enum TemplateStage {
+    draft
+    qa
+    production
+    historical
+}
+
+type PageMargin {
+    top: String
+    right: String
+    bottom: String
+    left: String
+}
+
+input PageMarginInput {
+    top: String
+    right: String
+    bottom: String
+    left: String
+}
+
+input PageConfigInput {
+    format: String
+    unit: String
+    width: Float
+    height: Float
+    landscape: Boolean
+    margin: PageMarginInput
+    headerHeight: Float
+    footerHeight: Float
+}
+
+type PageConfig {
+    format: String
+    unit: String
+    width: Float
+    height: Float
+    landscape: Boolean
+    margin: PageMargin
+    headerHeight: Float
+    footerHeight: Float
+}
+
+type Template {
+    id: ID
+    name: String!
+    html: String!
+    css: String!
+    htmlHeader: String
+    htmlFooter: String
+    cssHeader: String
+    cssFooter: String
+    pageConfig: PageConfig
+    jsonSchema: JSON
+    sampleData: JSON!
+    owner: ID
+    folder: Folder
+    folderId: ID
+    
+    # Sistema de Versiones
+    documentGroupId: String!
+    stage: TemplateStage!
+    version_tag: String
+    comment: String
+    
+    tags: [String!]
+    
+    # Metadata
+    createdAt: String
+    updatedAt: String
+    userCreated: ID
+    userUpdated: ID
+}
+
+input PublishTemplateInput {
+    comment: String!
+    templateId: ID
+}
+
+input TemplateInput {
+    name: String!
+    html: String!
+    css: String
+    htmlHeader: String
+    cssHeader: String
+    htmlFooter: String
+    cssFooter: String
+    pageConfig: PageConfigInput
+    # jsonSchema: JSON
+    sampleData: JSON!
+    folderId: ID
+    tags: [String!]
+    stage: TemplateStage
+    userCreated: ID
+    userUpdated: ID
+}
+
+input TemplateUpdateInput {
+    name: String!
+    html: String
+    css: String
+    htmlHeader: String
+    cssHeader: String
+    htmlFooter: String
+    cssFooter: String
+    pageConfig: PageConfigInput
+    # jsonSchema: JSON
+    sampleData: JSON
+    folderId: ID
+    tags: [String!]
+    stage: TemplateStage
+    userCreated: ID
+    userUpdated: ID
+}
+
+extend type Query {
+    # Templates
+    testQuery: [Template!]!
+    allTemplates: [Template]!
+    templatesByUser: [Template!]!
+    templatesByIdAndUserId(id: ID!): Template
+    template(id: ID!): Template
+    templatesByFolder(folderId: ID!): [Template!]!
+    rootTemplates: [Template!]!
+    searchTemplates(searchTerm: String, tags: [String!]): [Template!]!
+    
+    # Versiones
+    templateVersions(documentGroupId: ID!): [Template!]!
+}
+
+extend type Mutation {
+    # Templates
+    createTemplate(input: TemplateInput!): Template!
+    updateTemplate(id: ID!, input: TemplateUpdateInput!): Template!
+    deleteTemplate(id: ID!): Boolean!
+    shareTemplate(id: ID!, input: ShareInput!): Template!
+    moveTemplate(templateId: ID!, folderId: ID): Boolean!
+    
+    # Versiones
+    publishTemplate(documentGroupId: ID!, input: PublishTemplateInput!): Template!
+    publishToQA(templateId: ID!): Template!
+    createDraft(templateId: ID!): Template!
+    deleteTemplateVersion(id: ID!): Boolean!
+}

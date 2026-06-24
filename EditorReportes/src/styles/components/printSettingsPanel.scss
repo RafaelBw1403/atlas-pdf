@@ -1,0 +1,193 @@
+/* PrintSettingsPanel.css */
+
+.print-settings-container {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #333;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.print-settings-section {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 15px;
+  background: #fff;
+}
+
+.print-settings-title {
+  margin: 0 0 15px 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+}
+
+.print-settings-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.print-settings-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.print-settings-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.print-settings-input {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.print-settings-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.print-settings-input:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.print-settings-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.print-settings-checkbox-row input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+/* Slider/Range input styling */
+.print-settings-range {
+  width: 100%;
+  cursor: pointer;
+  margin-top: 5px;
+  accent-color: #3b82f6;
+}
+
+/* Select dropdown specific styling */
+.print-settings-select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  cursor: pointer;
+}
+
+.print-settings-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.print-settings-select:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.print-settings-loading {
+  padding: 20px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Number input specific styling */
+input[type="number"].print-settings-input {
+  -moz-appearance: textfield;
+}
+
+input[type="number"].print-settings-input::-webkit-outer-spin-button,
+input[type="number"].print-settings-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Divider option in select */
+select option[disabled] {
+  color: #9ca3af;
+  background-color: #f3f4f6;
+}
+
+/* Hover states */
+.print-settings-checkbox-row:hover {
+  color: #1f2937;
+}
+
+.print-settings-input:not(:disabled):hover,
+.print-settings-select:not(:disabled):hover {
+  border-color: #9ca3af;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .print-settings-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .print-settings-container {
+    padding: 10px;
+  }
+}
+
+/* Optional: Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .print-settings-container {
+    color: #e5e7eb;
+  }
+  
+  .print-settings-section {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .print-settings-title {
+    color: #9ca3af;
+  }
+  
+  .print-settings-label {
+    color: #d1d5db;
+  }
+  
+  .print-settings-input,
+  .print-settings-select {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .print-settings-input:disabled,
+  .print-settings-select:disabled {
+    background-color: #1f2937;
+    color: #6b7280;
+  }
+}

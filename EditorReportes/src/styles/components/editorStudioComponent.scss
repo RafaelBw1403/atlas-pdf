@@ -1,0 +1,47 @@
+@use '../base/variables';
+
+.studio-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: variables.$spacing-sm;
+  background-color: variables.$color-bg-light;
+
+  .studio-header {
+    margin-bottom: variables.$spacing-sm;
+    h2 {
+      font-size: 20px;
+      font-weight: variables.$font-weight-bold;
+      color: variables.$color-text;
+    }
+  }
+
+  .studio-tabssss {
+    //background-color: variables.$color-surface;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+    // background: red;
+    border-radius: variables.$border-radius;
+    box-shadow: variables.$shadow;
+    // height: 100%;
+    padding: variables.$spacing;
+
+    .ant-tabs-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      // background-color: aqua;
+    }
+
+    .ant-tabs-tabpane {
+      height: 100%; // ✅ Esto es clave para que los hijos como .editor-premium respeten el height %
+    }
+    .ant-tabs-nav {
+      margin-bottom: variables.$spacing;
+    }
+  }
+}

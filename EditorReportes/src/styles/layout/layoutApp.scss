@@ -1,0 +1,79 @@
+@use '../base/variables';
+
+.layout-app {
+  display: flex;
+  min-height: 100vh;
+  font-family: variables.$font-family-base;
+  background-color: variables.$color-bg-light;
+  color: variables.$color-text;
+}
+
+// Sidebar estilo elegante
+.layout-app__sidebar {
+  width: 240px;
+  background-color: #1e1e1e;
+  color: variables.$color-text-light;
+  display: flex;
+  flex-direction: column;
+  padding: variables.$spacing;
+
+  .logo {
+    font-weight: variables.$font-weight-bold;
+    font-size: 20px;
+    margin-bottom: variables.$spacing-lg;
+    text-align: center;
+    color: white;
+    letter-spacing: 1px;
+  }
+
+  .menu {
+    flex-grow: 1;
+
+    .ant-menu-item {
+      margin: 4px 0;
+      padding-left: 20px;
+      transition: variables.$transition-fast;
+      border-radius: variables.$border-radius-sm;
+
+      &.ant-menu-item-selected {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      a {
+        color: white;
+      }
+    }
+  }
+}
+
+// Contenido Principal claro y limpio
+.layout-app__content {
+  flex-grow: 1;
+  background-color: variables.$color-bg-light;
+  // padding: $spacing-lg;
+  padding: 0px;
+
+  .tabs-container {
+    background-color: variables.$color-surface;
+    // border-radius: variables.$border-radius-lg;
+    box-shadow: variables.$shadow;
+    //padding: variables.$spacing-lg;
+    // height: calc(100vh - 40px);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .ant-tabs-nav {
+      margin-bottom: variables.$spacing;
+    }
+
+    .ant-tabs-content {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+  }
+}
